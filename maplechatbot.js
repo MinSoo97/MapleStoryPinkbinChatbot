@@ -13,8 +13,6 @@ const bot = BotManager.getCurrentBot();
  * (void) msg.reply(string): 답장하기
  */
 
-
- 
 const API_KEY = "test_379df74dd227525a6c0b85a59f2847ea292cffcf30a97d713f2d8a7cac4ff4cbefe8d04e6d233bd35cf2fabdeb93fb0d";
 const BASE_URL = "https://openai.nexon.com/maplestory/v1";
 
@@ -22,22 +20,85 @@ const TARGET_ROOMS = [ "서브번호", "테스트" ];
 
 function onMessage(msg)
 {
-  if(!TARGET_ROOMS.includes(msg.room))
-  {
-    return;
-  }
+  if(!TARGET_ROOMS.includes(msg.room))  return;
   
-  if(msg.content === "하이")
-  {
-    msg.reply("나도 "+ msg.content);
-  }
+  const content = msg.content.trim();
   
+  //테스트용 하이~
+  if(content === "하이")
+  {
+    msg.reply("나도 "+ content + "🙌");
+  }
+  // 명령어 입력 실행문 @캐릭터 뜨수
+  if(content.startsWith("@"))
+  {
+    const msgArr = content.substring(1).split(" "); // 메시지 받은걸 " "기준으로 split 아 앞에 @빼고
+    const command = msgArr[0]; // 제일 처음 배열
+    const msgPart = msgArr.slice(1); // 그다음 배열
+
+    switch (command)
+    {
+      case "캐릭터":
+        FindInfoByCharacterName(msgPart);
+        break;
+
+      default:
+        break;
+
+    }
+  }
 }
 
-function httpGet(url)
+function FindInfoByCharacterName(msgPart)
 {
-  const request = new java.net.URL(url).openConnection();
-  request.setRequestProperty("x-nexon-api-key", API_KEY);
+  //전처리
+  if(msgPart.length === 0)
+  {
+    msg.reply("사용법 : @캐릭터 [닉네임]");
+    return;
+  }
+  //request
+  const url = `${BASE_URL}/character/basic?character_name=${encodeURIComponent(msgPart[0])}`;
+  const response = httpGet(url);
+  if(!response)
+  {
+    msg.reply("데이터를 가져오지 못했습니다.")
+    return;
+  }
+
+  const data = JSON.parse(response);
+
+  msg.relpy(msgPart[0]+"정보"+ data)
+}
+
+/* API호출 */
+function httpGet(url) 
+{
+  try 
+  {
+    const connection = new java.net.URL(url).openConnection();
+    connection.setRequestMethod("GET");
+    connection.setRequestProperty("x-nexon-api-key", API_KEY);
+    connection.setConnectTimeout(5000);
+    connection.setReadTimeout(5000);
+
+    const stream = new java.io.BufferedReader(
+      new java.io.InputStreamReader(connection.getInputStream())
+    );
+
+    let result = "";
+    let line;
+    while ((line = stream.readLine()) !== null) {
+      result += line;
+    }
+    stream.close();
+    return result;
+  } 
+  catch (e) 
+  {
+    msg.reply("url호출 실패");
+    return null;
+  }
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
