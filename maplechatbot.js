@@ -38,8 +38,8 @@ function onMessage(msg)
 
     switch (command)
     {
-      case "캐릭터":
-        FindInfoByCharacterName(msg, msgPart);
+      case "날씨":
+        getWeatherFromNaver(msg, msgPart);
         break;
 
       default:
@@ -49,26 +49,26 @@ function onMessage(msg)
   }
 }
 
-function FindInfoByCharacterName(msg, msgPart)
+function getWeatherFromNaver(msg, msgPart)
 {
   //전처리
   if(msgPart.length === 0)
   {
-    msg.reply("사용법 : @캐릭터 [닉네임]");
+    msg.reply("사용법 : @날씨 [지역]");
     return;
   }
   //request
-  const url = `${BASE_URL}/character/basic?character_name=${encodeURIComponent(msgPart[0])}`;
-  const response = httpGet(msg, url);
-  if(!response)
-  {
-    msg.reply("데이터를 가져오지 못했습니다. \n"+url);
-    return;
-  }
+  var url = "https://m.search.naver.com/search.naver?query=" + msgPart + "%20날씨"
+  var data = org.jsoup.Jsoup.connect(url)
+      .header('Referer','https://m.search.naver.com')
+      .get();
+  
+  var result = data.selectFirst('.select_txt').text().trim() + ' 날씨' + '\n'+
+               data.selectFirst('.temperature_text').text().trim() + '\n'+
+               data.selectFirst('.temperature_info > p').text().trim() +'\n';
+  
+  msg.reply(result);
 
-  const data = JSON.parse(response);
-
-  msg.reply(msgPart[0]+"정보"+ JSON.stringify(data, null, 2));
 }
 
 /* API호출 */
