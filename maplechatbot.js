@@ -39,7 +39,7 @@ function onMessage(msg)
     switch (command)
     {
       case "캐릭터":
-        FindInfoByCharacterName(msgPart);
+        FindInfoByCharacterName(msg, msgPart);
         break;
 
       default:
@@ -49,7 +49,7 @@ function onMessage(msg)
   }
 }
 
-function FindInfoByCharacterName(msgPart)
+function FindInfoByCharacterName(msg, msgPart)
 {
   //전처리
   if(msgPart.length === 0)
@@ -59,20 +59,20 @@ function FindInfoByCharacterName(msgPart)
   }
   //request
   const url = `${BASE_URL}/character/basic?character_name=${encodeURIComponent(msgPart[0])}`;
-  const response = httpGet(url);
+  const response = httpGet(msg, url);
   if(!response)
   {
-    msg.reply("데이터를 가져오지 못했습니다.")
+    msg.reply("데이터를 가져오지 못했습니다.");
     return;
   }
 
   const data = JSON.parse(response);
 
-  msg.relpy(msgPart[0]+"정보"+ data)
+  msg.reply(msgPart[0]+"정보"+ JSON.stringify(data, null, 2));
 }
 
 /* API호출 */
-function httpGet(url) 
+function httpGet(msg, url) 
 {
   try 
   {
