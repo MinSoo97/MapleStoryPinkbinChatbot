@@ -63,9 +63,10 @@ function getWeatherFromNaver(msg, msgPart)
       .header('Referer','https://m.search.naver.com')
       .get();
 
-  var result = data.selectFirst('.select_txt').text().trim() + ' 날씨' + '\n'+
+  var result = data.selectFirst('.select_txt').text().trim() + ' 날씨입니다.' + '\n'+
                data.selectFirst('.temperature_text').text().trim() + '\n'+
-               data.selectFirst('.temperature_info > p').text().trim() +'\n';
+               data.selectFirst('.temperature_info > p').text().trim() +'\n' +
+               data.selectFirst('.week_item today').text().trim() + '\n';
 
   msg.reply(result);
 
