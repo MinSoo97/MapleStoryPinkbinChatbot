@@ -58,14 +58,33 @@ function getWeatherFromNaver(msg, msgPart)
     return;
   }
   //request
-  var url = "https://m.search.naver.com/search.naver?query=" + msgPart + "%20날씨";
-  var data = org.jsoup.Jsoup.connect(url)
-      .header('Referer','https://m.search.naver.com')
-      .get();
+  // var url = "https://m.search.naver.com/search.naver?query=" + msgPart + "%20날씨";
+  // var data = org.jsoup.Jsoup.connect(url)
+  //     .header('Referer','https://m.search.naver.com')
+  //     .get();
 
-  var result = data.selectFirst('.select_txt').text().trim() + ' 날씨입니다.' + '\n'+
-               data.selectFirst('.temperature_text').text().trim() + '\n'+
-               data.selectFirst('.temperature_info > p').text().trim() +'/n';
+   var url = "https://m.search.daum.net/search?w=tot&nil_mtopsearch=btn&DA=YZR&q=" + msgPart + "%20날씨";
+  var data = org.jsoup.Jsoup.connect(url)
+      .header('Referer','https://m.search.daum.net')
+      .get();
+  
+  // var select_txt = data.selectFirst('.select_txt');
+  // var temperature_text = data.selectFirst('.temperature_text');
+  // var temperature_info = data.selectFirst('.temperature_info > p');
+
+  var select_txt = data.selectFirst('.area_tit');
+  var temperature_text = data.selectFirst('.wrap_info');
+  var temperature_info = data.selectFirst('.wrap_desc');
+
+  if(!select_txt || !temperature_text || !temperature_info)
+  {
+    msg.reply("날씨 정보를 찾을 수 없어요 \n지역명을 다시 입력해주세요.");
+    return;
+  }
+
+  var result = select_txt.text().trim() + ' 날씨입니다.' + '\n'+
+               temperature_text.text().trim() + '\n'+
+               temperature_info.text().trim() +'/n';
 
   msg.reply(result);
 
