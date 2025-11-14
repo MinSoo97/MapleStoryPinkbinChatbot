@@ -16,7 +16,7 @@ const bot = BotManager.getCurrentBot();
 const API_KEY = "test_379df74dd227525a6c0b85a59f2847ea292cffcf30a97d713f2d8a7cac4ff4cbefe8d04e6d233bd35cf2fabdeb93fb0d";
 const BASE_URL = "https://openai.nexon.com/maplestory/v1";
 
-const TARGET_ROOMS = [ "서브번호", "테스트","뺙히릿"];
+const TARGET_ROOMS = [ "서브번호", "테스트","뺙히릿","한신불쌍한새끼","신평마법사"];
 
 function onMessage(msg)
 {
@@ -65,11 +65,11 @@ function getWeatherFromNaver(msg, msgPart)
 
   var result = data.selectFirst('.select_txt').text().trim() + ' 날씨입니다.' + '\n'+
                data.selectFirst('.temperature_text').text().trim() + '\n'+
-               data.selectFirst('.temperature_info > p').text().trim() +'\n' +
-               data.selectFirst('.week_item today').text().trim() + '\n';
+               data.selectFirst('.temperature_info > p').text().trim() +'/n';
 
   msg.reply(result);
 
+  //msg.reply(data.select("body").html());
 }
 
 /* API호출 */
