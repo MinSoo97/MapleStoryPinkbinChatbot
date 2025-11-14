@@ -77,6 +77,7 @@ function getWeatherFromNaver(msg, msgPart)
   var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit'); //지역명
   var temperature_text = data.selectFirst('.wrap_info'); //기온
   var temperature_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
+  var temperature_updown = temperature_info.selectFirst("i.ico_weather");
 
   if(!select_txt || !temperature_text || !temperature_info)
   {
