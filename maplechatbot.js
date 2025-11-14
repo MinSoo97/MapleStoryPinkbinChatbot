@@ -58,23 +58,25 @@ function getWeatherFromNaver(msg, msgPart)
     return;
   }
   //request
+  //네이버
   // var url = "https://m.search.naver.com/search.naver?query=" + msgPart + "%20날씨";
   // var data = org.jsoup.Jsoup.connect(url)
   //     .header('Referer','https://m.search.naver.com')
   //     .get();
 
-   var url = "https://m.search.daum.net/search?w=tot&nil_mtopsearch=btn&DA=YZR&q=" + msgPart + "%20날씨";
-  var data = org.jsoup.Jsoup.connect(url)
-      .header('Referer','https://m.search.daum.net')
-      .get();
-
   // var select_txt = data.selectFirst('.select_txt');
   // var temperature_text = data.selectFirst('.temperature_text');
   // var temperature_info = data.selectFirst('.temperature_info > p');
 
-  var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit');
-  var temperature_text = data.selectFirst('.wrap_info');
-  var temperature_info = data.selectFirst('.wrap_desc');
+  //다음
+  var url = "https://m.search.daum.net/search?w=tot&nil_mtopsearch=btn&DA=YZR&q=" + msgPart + "%20날씨";
+  var data = org.jsoup.Jsoup.connect(url)
+      .header('Referer','https://m.search.daum.net')
+      .get();
+
+  var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit'); //지역명
+  var temperature_text = data.selectFirst('.wrap_info'); //기온
+  var temperature_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
 
   if(!select_txt || !temperature_text || !temperature_info)
   {
@@ -82,9 +84,9 @@ function getWeatherFromNaver(msg, msgPart)
     return;
   }
 
-  var result = select_txt.text().trim() + ' 날씨입니다.' + '\n'+
-               temperature_text.text().trim() + '\n'+
-               temperature_info.text().trim() +'\n';
+  var result = select_txt.text().trim() + ' 날씨는' + temperature_info.get(0).text().trim() +'입니다.' + '\n'+
+               '기온은 ' + temperature_text.text().trim() + '\n'+
+               temperature_info.get(1).text().trim() +'\n';
 
   msg.reply(result);
 
