@@ -84,8 +84,8 @@ function getWeatherFromNaver(msg, msgPart)
     return;
   }
 
-  var result = select_txt.text().trim() + ' 날씨는' + temperature_info.get(0).text().trim() +'입니다.' + '\n'+
-               '기온은 ' + temperature_text.text().trim() + '\n'+
+  var result = select_txt.text().trim() + '는' + temperature_info.get(0).text().trim() +' 입니다.' + '\n'+
+               '기온은 ' + temperature_text.text().trim() + '이며' +'\n'+
                temperature_info.get(1).text().trim() +'\n';
 
   msg.reply(result);
