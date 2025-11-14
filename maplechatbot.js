@@ -67,12 +67,12 @@ function getWeatherFromNaver(msg, msgPart)
   var data = org.jsoup.Jsoup.connect(url)
       .header('Referer','https://m.search.daum.net')
       .get();
-  
+
   // var select_txt = data.selectFirst('.select_txt');
   // var temperature_text = data.selectFirst('.temperature_text');
   // var temperature_info = data.selectFirst('.temperature_info > p');
 
-  var select_txt = data.selectFirst('.area_tit');
+  var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit');
   var temperature_text = data.selectFirst('.wrap_info');
   var temperature_info = data.selectFirst('.wrap_desc');
 
@@ -84,7 +84,7 @@ function getWeatherFromNaver(msg, msgPart)
 
   var result = select_txt.text().trim() + ' 날씨입니다.' + '\n'+
                temperature_text.text().trim() + '\n'+
-               temperature_info.text().trim() +'/n';
+               temperature_info.text().trim() +'\n';
 
   msg.reply(result);
 
