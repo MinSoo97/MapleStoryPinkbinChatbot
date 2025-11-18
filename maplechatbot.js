@@ -77,26 +77,27 @@ function getWeather(msg, msgPart)
     var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit'); //지역명
     var temp_text = data.selectFirst('.wrap_info'); //기온
     var temp_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
-    var temp_updown = data.selectFirst('.wrap_desc .icoweather.ico_tempArrow');
     var temp_detail = data.select('.list_subInfo'); //습도 돌풍 체감
-    
+    var temp_icon = temp_info.selectFirst('i.ico_weather');
+
     var temp_updown_text = "";
-    if(temp_updown)
+    if(temp_icon)
     {
-      var className = temp_updown.classNmae();
-      if(className.includes('up'))
+      var className = item_icon.className();
+      if(className.includes("up"))
       {
         temp_updown_text = "높습니다.";
       }
-      else if (className.includes('down'))
+      else if(className.includes("down"))
       {
         temp_updown_text = "낮습니다.";
       }
       else
       {
-        temp_updown_text = className.text();
+        temp_updown_text = className;
       }
     }
+
     //해외
 
     if(select_txt && temp_text && temp_info && temp_detail)
