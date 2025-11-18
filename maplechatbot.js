@@ -83,7 +83,7 @@ function getWeather(msg, msgPart)
     var temp_updown_text = "";
     if(temp_icon)
     {
-      var className = item_icon.className();
+      var className = temp_icon.className();
       if(className.includes("up"))
       {
         temp_updown_text = "높습니다.";
