@@ -92,6 +92,10 @@ function getWeather(msg, msgPart)
       {
         temp_updown_text = "낮습니다.";
       }
+      else
+      {
+        temp_updown_text = className.text();
+      }
     }
     //해외
 
