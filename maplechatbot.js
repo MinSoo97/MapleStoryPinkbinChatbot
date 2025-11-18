@@ -14,7 +14,7 @@ const bot = BotManager.getCurrentBot();
  */
 
 const TARGET_ROOMS = [ "서브번호", "테스트","뺙히릿","한신불쌍한새끼","신평마법사"];
-const LottoArr = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45"]
+const LottoArr = Array.from({length:45}, (_,i)=>i+1); // [1,2,...,45]
 
 function onMessage(msg)
 {
@@ -142,9 +142,7 @@ function getWeather(msg, msgPart)
 
 function createLottonumber(msg, msgPart)
 {
-  const shuffled = shuffle([...LottoArr]); // 원본 배열은 보존
-  const randomSix = shuffled.slice(0, 6);
-  
+  const randomSix = shuffle(LottoArr.slice()).slice(0,6);  
   msg.reply("추첨번호는\n" + randomSix);
 }
 
@@ -155,6 +153,7 @@ function shuffle(array) {
   }
   return array;
 }
+
 /*여기서부터는 사용할 일이 없을거 같다 */
 
 /**
