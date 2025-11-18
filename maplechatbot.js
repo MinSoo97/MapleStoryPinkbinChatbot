@@ -142,16 +142,19 @@ function getWeather(msg, msgPart)
 
 function createLottonumber(msg, msgPart)
 {
-  const randomSix = shuffle(LottoArr.slice()).slice(0,6);
+  const randomSix = getRandomLotto();
   msg.reply("추첨번호는\n" + randomSix);
 }
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
+function getRandomLotto() 
+{
+    const arr = LottoArr.slice(); // 원본 배열 보존
+    // Fisher–Yates 셔플
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]]; // 자리 바꾸기
+    }
+    return arr.slice(0, 6).sort((a,b) => a-b); // 앞 6개 선택 후 정렬
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
