@@ -78,7 +78,7 @@ function getWeather(msg, msgPart)
     var temp_text = data.selectFirst('.wrap_info'); //기온
     var temp_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
     var temp_detail = data.select('.list_subInfo'); //습도 돌풍 체감
-    var temp_icon = temp_info.selectFirst('i.ico_weather');
+    var temp_icon = temp_info.get(1).selectFirst('i.ico_weather');
 
     var temp_updown_text = "";
     if(temp_icon)
@@ -86,15 +86,15 @@ function getWeather(msg, msgPart)
       var className = temp_icon.className();
       if(className.includes("up"))
       {
-        temp_updown_text = "높습니다.";
+        temp_updown_text = " 높습니다.";
       }
       else if(className.includes("down"))
       {
-        temp_updown_text = "낮습니다.";
+        temp_updown_text = " 낮습니다.";
       }
       else
       {
-        temp_updown_text = className;
+        temp_updown_text = "";
       }
     }
 
@@ -127,7 +127,7 @@ function getWeather(msg, msgPart)
     Log.e("onMessage", "getWeatherFromNaver ::",e);
     msg.reply("getWeather에러 발생" +e);
   }
-  
+
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
