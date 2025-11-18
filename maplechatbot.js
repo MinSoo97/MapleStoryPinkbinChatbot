@@ -77,7 +77,7 @@ function getWeather(msg, msgPart)
     var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit'); //지역명
     var temp_text = data.selectFirst('.wrap_info'); //기온
     var temp_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
-    var temp_updown = temperature_info.selectFirst("i.ico_weather"); //높낮이 아이콘
+    var temp_updown = data.selectFirst('.wrap.desc .txt_desc .ico_weather'); //높낮이 아이콘
     var temp_detail = data.select('.list_subInfo'); //습도 돌풍 체감
     
     //해외
@@ -87,6 +87,7 @@ function getWeather(msg, msgPart)
       var result = select_txt.text().trim() + '는' + temp_info.get(0).text().trim() +' 입니다.' + '\n'+
                 '기온은 ' + temp_text.text().trim() + '이며' +'\n'+
                 temp_info.get(1).text().trim() +'\n'+
+                temp_updown.text().trim() + '\n' +
                 temp_detail.text().trim();
 
     }
