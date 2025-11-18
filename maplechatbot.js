@@ -13,9 +13,6 @@ const bot = BotManager.getCurrentBot();
  * (void) msg.reply(string): 답장하기
  */
 
-const API_KEY = "test_379df74dd227525a6c0b85a59f2847ea292cffcf30a97d713f2d8a7cac4ff4cbefe8d04e6d233bd35cf2fabdeb93fb0d";
-const BASE_URL = "https://openai.nexon.com/maplestory/v1";
-
 const TARGET_ROOMS = [ "서브번호", "테스트","뺙히릿","한신불쌍한새끼","신평마법사"];
 
 function onMessage(msg)
@@ -39,7 +36,7 @@ function onMessage(msg)
     switch (command)
     {
       case "날씨":
-        getWeatherFromNaver(msg, msgPart);
+        getWeather(msg, msgPart);
         break;
 
       default:
@@ -49,79 +46,73 @@ function onMessage(msg)
   }
 }
 
-function getWeatherFromNaver(msg, msgPart)
+function getWeather(msg, msgPart)
 {
-  //전처리
-  if(msgPart.length === 0)
+  try
   {
-    msg.reply("사용법 : @날씨 [지역]");
-    return;
-  }
-  //request
-  //네이버
-  // var url = "https://m.search.naver.com/search.naver?query=" + msgPart + "%20날씨";
-  // var data = org.jsoup.Jsoup.connect(url)
-  //     .header('Referer','https://m.search.naver.com')
-  //     .get();
-
-  // var select_txt = data.selectFirst('.select_txt');
-  // var temperature_text = data.selectFirst('.temperature_text');
-  // var temperature_info = data.selectFirst('.temperature_info > p');
-
-  //다음
-  var url = "https://m.search.daum.net/search?w=tot&nil_mtopsearch=btn&DA=YZR&q=" + msgPart + "%20날씨";
-  var data = org.jsoup.Jsoup.connect(url)
-      .header('Referer','https://m.search.daum.net')
-      .get();
-
-  var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit'); //지역명
-  var temperature_text = data.selectFirst('.wrap_info'); //기온
-  var temperature_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
-  var temperature_updown = temperature_info.selectFirst("i.ico_weather");
-
-  if(!select_txt || !temperature_text || !temperature_info)
-  {
-    msg.reply("날씨 정보를 찾을 수 없어요 \n지역명을 다시 입력해주세요.");
-    return;
-  }
-
-  var result = select_txt.text().trim() + '는' + temperature_info.get(0).text().trim() +' 입니다.' + '\n'+
-               '기온은 ' + temperature_text.text().trim() + '이며' +'\n'+
-               temperature_info.get(1).text().trim() +'\n';
-
-  msg.reply(result);
-
-  //msg.reply(data.select("body").html());
-}
-
-/* API호출 */
-function httpGet(msg, url) 
-{
-  try 
-  {
-    const connection = new java.net.URL(url).openConnection();
-    connection.setRequestMethod("GET");
-    connection.setRequestProperty("x-nexon-api-key", API_KEY);
-    connection.setConnectTimeout(5000);
-    connection.setReadTimeout(5000);
-
-    const stream = new java.io.BufferedReader(
-      new java.io.InputStreamReader(connection.getInputStream())
-    );
-
-    let result = "";
-    let line;
-    while ((line = stream.readLine()) !== null) {
-      result += line;
+    //전처리
+    if(msgPart.length === 0)
+    {
+      msg.reply("사용법 : @날씨 [지역]");
+      return;
     }
-    stream.close();
-    return result;
-  } 
-  catch (e) 
-  {
-    msg.reply("url호출 실패");
-    return null;
+    //request
+    //네이버
+    // var url = "https://m.search.naver.com/search.naver?query=" + msgPart + "%20날씨";
+    // var data = org.jsoup.Jsoup.connect(url)
+    //     .header('Referer','https://m.search.naver.com')
+    //     .get();
+
+    // var select_txt = data.selectFirst('.select_txt');
+    // var temperature_text = data.selectFirst('.temperature_text');
+    // var temperature_info = data.selectFirst('.temperature_info > p');
+
+    //다음
+    var url = "https://m.search.daum.net/search?w=tot&nil_mtopsearch=btn&DA=YZR&q=" + msgPart + "%20날씨";
+    var data = org.jsoup.Jsoup.connect(url)
+        .header('Referer','https://m.search.daum.net')
+        .get();
+
+    //한국
+    var select_txt = data.selectFirst('.card_comp .area_tit .inner_header .tit'); //지역명
+    var temp_text = data.selectFirst('.wrap_info'); //기온
+    var temp_info = data.select('.wrap_desc .txt_desc'); //[날씨, 어제랑비교]
+    var temp_updown = temperature_info.selectFirst("i.ico_weather"); //높낮이 아이콘
+    var temp_detail = data.select('.list_subInfo'); //습도 돌풍 체감
+    
+    //해외
+
+    if(select_txt && temp_text && temp_info && temp_detail)
+    {
+      var result = select_txt.text().trim() + '는' + temp_info.get(0).text().trim() +' 입니다.' + '\n'+
+                '기온은 ' + temp_text.text().trim() + '이며' +'\n'+
+                temp_info.get(1).text().trim() +'\n'+
+                temp_detail.text().trim();
+
+    }
+    else if (false)
+    {
+
+    }
+    else
+    {
+      msg.reply("날씨 정보를 찾을 수 없어요 \n지역명을 다시 입력해주세요.");
+      return;
+    }
+
+
+
+
+    msg.reply(result);
+
+    //msg.reply(data.select("body").html());
   }
+  catch(e)
+  {
+    Log.e("onMessage", "getWeatherFromNaver ::",e);
+    msg.reply("getWeather에러 발생");
+  }
+  
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
