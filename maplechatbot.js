@@ -150,13 +150,20 @@ function createLottonumber(msg, msgPart)
 
 function getRandomLotto() 
 {
-   const arr = Array.from({ length: 45 }, (_, i) => i + 1);
+  // 1~45 배열 생성 (구형 환경에도 100% 동작)
+  var arr = [];
+  for (var i = 1; i <= 45; i++) arr.push(i);
 
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr.slice(0, 6).sort((a, b) => a - b);
+  // Fisher–Yates 셔플 (ES5버전)
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+
+  // 앞 6개 뽑고 정렬
+  return arr.slice(0, 6).sort(function(a, b) { return a - b; });
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
