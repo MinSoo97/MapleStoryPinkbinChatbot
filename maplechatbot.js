@@ -60,6 +60,7 @@ function onMessage(msg)
 function isNumberString(s) {
   return /^\d+$/.test(s);
 }
+
 function getWeather(msg, msgPart)
 {
   try
