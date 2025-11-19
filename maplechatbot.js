@@ -45,7 +45,7 @@ function onMessage(msg)
         {
           createLottonumber(msg, msgPart);
         }
-        else if (isNumberString(msgPart))
+        else if (isNumberString(msgPart.join("").trim()))
         {
           searchLotto(msg, msgPart);
         }
@@ -57,6 +57,9 @@ function onMessage(msg)
   }
 }
 
+function isNumberString(s) {
+  return /^\d+$/.test(s);
+}
 function getWeather(msg, msgPart)
 {
   try
