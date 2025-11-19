@@ -14,7 +14,6 @@ const bot = BotManager.getCurrentBot();
  */
 
 const TARGET_ROOMS = [ "서브번호", "테스트","뺙히릿","한신불쌍한새끼","신평마법사"];
-const LottoArr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45];
 
 function onMessage(msg)
 {
@@ -46,7 +45,7 @@ function onMessage(msg)
         {
           createLottonumber(msg, msgPart);
         }
-        else if (0)
+        else if (isNumberString(msgPart))
         {
           searchLotto(msg, msgPart);
         }
@@ -155,7 +154,8 @@ function getRandomLotto()
   for (var i = 1; i <= 45; i++) arr.push(i);
 
   // Fisher–Yates 셔플 (ES5버전)
-  for (var i = arr.length - 1; i > 0; i--) {
+  for (var i = arr.length - 1; i > 0; i--) 
+  {
     var j = Math.floor(Math.random() * (i + 1));
     var tmp = arr[i];
     arr[i] = arr[j];
@@ -164,6 +164,11 @@ function getRandomLotto()
 
   // 앞 6개 뽑고 정렬
   return arr.slice(0, 6).sort(function(a, b) { return a - b; });
+}
+
+function searchLotto(msg, msgPart)
+{
+  msg.reply ("회차검색");
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
