@@ -39,6 +39,7 @@ function onMessage(msg)
       case "날씨":
         getWeather(msg, msgPart);
         break;
+
       case "로또":
       case "Lotto":
         if (msgArr[1] === "추천" || msgArr[1] ==="번호추천" || (msgArr[1] === "번호" && msgArr[2] === "추천"))
@@ -49,6 +50,7 @@ function onMessage(msg)
         {
           searchLotto(msg, msgPart);
         }
+        break;
       default:
         break;
 
