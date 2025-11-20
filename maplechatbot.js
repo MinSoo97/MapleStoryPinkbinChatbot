@@ -196,7 +196,6 @@ function searchLotto(msg, msgPart)
                  "총 판매금액: " + json.totSellamnt.toLocaleString() + "원\n" +
                  "1등 당첨자: " + json.firstPrzwnerCo + "명\n" +
                  "1등 당첨금: " + json.firstWinamnt.toLocaleString() + "원\n" +
-                 "누적 1등 당첨금: " + json.firstAccumamnt.toLocaleString() + "원";
 
   msg.reply (replyMsg);
 }
