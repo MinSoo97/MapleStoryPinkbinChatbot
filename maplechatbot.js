@@ -45,6 +45,10 @@ function onMessage(msg)
         {
           createLottonumber(msg, msgPart);
         }
+        if(msgArr[1] === "최신")
+        {
+          
+        }
         else if (isNumberString(msgPart.join("").trim()))
         {
           searchLotto(msg, msgPart);
