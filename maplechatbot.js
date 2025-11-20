@@ -173,12 +173,36 @@ function getRandomLotto()
 function searchLotto(msg, msgPart)
 {
   var url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=" + msgPart;
-    var data = org.jsoup.Jsoup.connect(url)
-        .ignoreContentType(true)
-        .execute()
-        .body();
+  var data = org.jsoup.Jsoup.connect(url)
+      .ignoreContentType(true)
+      .execute()
+      .body();
+    
+  var json = JSON.parse(data);   
+  var lottoNumbers = 
+  [
+  json.drwtNo1,
+  json.drwtNo2,
+  json.drwtNo3,
+  json.drwtNo4,
+  json.drwtNo5,
+  json.drwtNo6
+  ];
 
-  msg.reply (data);
+  var replyMsg = `
+                  🎉 로또 ${json.drwNo}회차 결과 🎉
+                  추첨일: ${json.drwNoDate}
+
+                  번호: ${lottoNumbers.join(', ')}
+                  보너스: ${json.bnusNo}
+
+                  총 판매금액: ${json.totSellamnt.toLocaleString()}원
+                  1등 당첨자: ${json.firstPrzwnerCo}명
+                  1등 당첨금: ${json.firstWinamnt.toLocaleString()}원
+                  누적 1등 당첨금: ${json.firstAccumamnt.toLocaleString()}원
+                  `;
+
+  msg.reply (replyMsg);
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
