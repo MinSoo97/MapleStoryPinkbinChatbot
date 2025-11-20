@@ -172,7 +172,13 @@ function getRandomLotto()
 
 function searchLotto(msg, msgPart)
 {
-  msg.reply ("회차검색");
+  var url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=" + msgPart;
+    var data = org.jsoup.Jsoup.connect(url)
+        .ignoreContentType(true)
+        .execute()
+        .body();
+
+  msg.reply (data);
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
