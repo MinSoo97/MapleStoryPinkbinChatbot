@@ -188,8 +188,8 @@ function searchLotto(msg, msgPart)
   json.drwtNo5,
   json.drwtNo6
   ];
-  var totSellamnt = parseInt(json.totSellamnt, 10).toLocaleString();
-  var firstWinamnt = parseInt(json.firstWinamnt, 10).toLocaleString();
+  var totSellamnt = parseInt(json.totSellamnt, 10).toLocaleString() ||0;
+  var firstWinamnt = parseInt(json.firstWinamnt, 10).toLocaleString() ||0;
   
   var replyMsg = "로또 " + json.drwNo + "회차 결과 \n" +
                  "추첨일: " + json.drwNoDate + "\n\n" +
