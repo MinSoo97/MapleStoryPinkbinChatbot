@@ -189,13 +189,16 @@ function searchLotto(msg, msgPart)
   json.drwtNo6
   ];
 
+  var totSellamnt = parseInt(json.totSellamnt);
+  var firstWinamnt = parseInt(json.firstWinamnt);
+
   var replyMsg = "로또 " + json.drwNo + "회차 결과 \n" +
                  "추첨일: " + json.drwNoDate + "\n\n" +
                  "번호: " + lottoNumbers.join(', ') + "\n" +
                  "보너스: " + json.bnusNo + "\n\n" +
-                 "총 판매금액: " + Number(json.totSellamnt).toLocaleString() + "원\n" +
+                 "총 판매금액: " + totSellamnt.toLocaleString() + "원\n" +
                  "1등 당첨자: " + json.firstPrzwnerCo + "명\n" +
-                 "1등 당첨금: " + Number(json.firstWinamnt).toLocaleString() + "원\n" +
+                 "1등 당첨금: " + firstWinamnt.toLocaleString() + "원\n" +
 
   msg.reply (replyMsg);
 }
