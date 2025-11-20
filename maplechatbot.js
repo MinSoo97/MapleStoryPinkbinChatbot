@@ -193,9 +193,9 @@ function searchLotto(msg, msgPart)
                  "추첨일: " + json.drwNoDate + "\n\n" +
                  "번호: " + lottoNumbers.join(', ') + "\n" +
                  "보너스: " + json.bnusNo + "\n\n" +
-                 "총 판매금액: " + json.totSellamnt.toLocaleString() + "원\n" +
+                 "총 판매금액: " + Number(json.totSellamnt).toLocaleString() + "원\n" +
                  "1등 당첨자: " + json.firstPrzwnerCo + "명\n" +
-                 "1등 당첨금: " + json.firstWinamnt.toLocaleString() + "원\n" +
+                 "1등 당첨금: " + Number(json.firstWinamnt).toLocaleString() + "원\n" +
 
   msg.reply (replyMsg);
 }
