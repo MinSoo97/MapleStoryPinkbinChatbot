@@ -189,7 +189,7 @@ function searchLotto(msg, msgPart)
   json.drwtNo6
   ];
 
-  var replyMsg = "🎉 로또 " + json.drwNo + "회차 결과 🎉\n" +
+  var replyMsg = "로또 " + json.drwNo + "회차 결과 \n" +
                  "추첨일: " + json.drwNoDate + "\n\n" +
                  "번호: " + lottoNumbers.join(', ') + "\n" +
                  "보너스: " + json.bnusNo + "\n\n" +
