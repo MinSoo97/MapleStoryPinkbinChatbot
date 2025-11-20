@@ -189,18 +189,14 @@ function searchLotto(msg, msgPart)
   json.drwtNo6
   ];
 
-  var replyMsg = `
-                  🎉 로또 ${json.drwNo}회차 결과 🎉
-                  추첨일: ${json.drwNoDate}
-
-                  번호: ${lottoNumbers.join(', ')}
-                  보너스: ${json.bnusNo}
-
-                  총 판매금액: ${json.totSellamnt.toLocaleString()}원
-                  1등 당첨자: ${json.firstPrzwnerCo}명
-                  1등 당첨금: ${json.firstWinamnt.toLocaleString()}원
-                  누적 1등 당첨금: ${json.firstAccumamnt.toLocaleString()}원
-                  `;
+  var replyMsg = "🎉 로또 " + json.drwNo + "회차 결과 🎉\n" +
+                 "추첨일: " + json.drwNoDate + "\n\n" +
+                 "번호: " + lottoNumbers.join(', ') + "\n" +
+                 "보너스: " + json.bnusNo + "\n\n" +
+                 "총 판매금액: " + json.totSellamnt.toLocaleString() + "원\n" +
+                 "1등 당첨자: " + json.firstPrzwnerCo + "명\n" +
+                 "1등 당첨금: " + json.firstWinamnt.toLocaleString() + "원\n" +
+                 "누적 1등 당첨금: " + json.firstAccumamnt.toLocaleString() + "원";
 
   msg.reply (replyMsg);
 }
