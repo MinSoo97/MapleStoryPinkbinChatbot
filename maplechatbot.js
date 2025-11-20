@@ -197,7 +197,7 @@ function searchLotto(msg, msgPart)
                  "보너스: " + json.bnusNo + "\n\n" +
                  "총 판매금액: " + totSellamnt + "원\n" +
                  "1등 당첨자: " + json.firstPrzwnerCo + "명\n" +
-                 "1등 당첨금: " + firstWinamnt + "원\n" +
+                 "1등 당첨금: " + firstWinamnt + "원\n";
 
   msg.reply (replyMsg);
 }
