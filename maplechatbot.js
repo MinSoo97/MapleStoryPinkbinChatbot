@@ -206,33 +206,77 @@ function searchLotto(msg, msgPart)
 
 function searchAI(msg, msgPart)
 {
-  try {
-      var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M';
-      var model = 'gemini-2.0-flash';
-      var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
+    try {
+    var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M'; // 여기에 Gemini API Key
+    var model = 'gemini-2.0-flash';
+    var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
 
-      var msgString = msgPart.join(" "); // 배열 → 문자열
+    // 배열 → 문자열
+    var msgString = Array.isArray(msgPart) ? msgPart.join(" ") : msgPart;
 
-      var response = org.jsoup.Jsoup.connect(url)
-        .header("Content-Type", "application/json")
-        .requestBody(JSON.stringify({
-          "contents":[{
-            "parts": [{
-              "text": msgString
-            }]
+    // Jsoup POST
+    var response = org.jsoup.Jsoup.connect(url)
+      .header("Content-Type", "application/json")
+      .requestBody(JSON.stringify({
+        "contents": [{
+          "parts": [{
+            "text": msgString
           }]
-        }))
-        .ignoreContentType(true)
-        .ignoreHttpErrors(true)
-        .post();
+        }]
+      }))
+      .ignoreContentType(true)
+      .ignoreHttpErrors(true)
+      .post();
 
-      var data = JSON.parse(response.text());
-      var answer = data.candidates[0].content.parts[0].text;
-      msg.reply(answer);
-    } catch(e) {
-      msg.reply(e.toString());
+    // JSON 파싱
+    var jsonText = response.text(); // 필요 시 response.body().text() 사용
+    var data = JSON.parse(jsonText);
+
+    // 안전하게 후보 추출
+    var answer = "응답이 없습니다.";
+    if (data && data.candidates && data.candidates.length > 0) {
+      answer = data.candidates[0].content.parts[0].text;
+    } else {
+      // 디버깅용: 실제 JSON 전체 보기
+      console.log("API 응답 전체:", JSON.stringify(data));
     }
+
+    msg.reply(answer);
+  } catch (e) {
+    msg.reply("에러 발생: " + e.toString());
+    console.log(e);
+  }
 }
+
+// function searchAI(msg, msgPart)
+// {
+//   try {
+//       var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M';
+//       var model = 'gemini-2.0-flash';
+//       var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
+
+//       var msgString = msgPart.join(" "); // 배열 → 문자열
+
+//       var response = org.jsoup.Jsoup.connect(url)
+//         .header("Content-Type", "application/json")
+//         .requestBody(JSON.stringify({
+//           "contents":[{
+//             "parts": [{
+//               "text": msgPart
+//             }]
+//           }]
+//         }))
+//         .ignoreContentType(true)
+//         .ignoreHttpErrors(true)
+//         .post();
+
+//       var data = JSON.parse(response.text());
+//       var answer = data.candidates[0].content.parts[0].text;
+//       msg.reply(answer);
+//     } catch(e) {
+//       msg.reply(e.toString());
+//     }
+// }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
 
