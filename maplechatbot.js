@@ -209,7 +209,7 @@ function searchAI(msg, msgPart)
     try {
     var api_key = 'AIzaSyDU-T5nCdQ9mhlQMb4Bwu0A-IKzaNdS0JI'; // 여기에 Gemini API Key
     var model = 'gemini-2.0-flash';
-    var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
+    var url = "https://generativelanguage.googleapis.com/v1beta/models/"+ model + ":generateContent?key=" + api_key;
 
     // 배열 → 문자열
     var msgString = Array.isArray(msgPart) ? msgPart.join(" ") : msgPart;
