@@ -60,7 +60,7 @@ function onMessage(msg)
   if(content.startsWith("?")) 
   {
     try {
-      var api_key = 'YOUR_API_KEY';
+      var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M';
       var model = 'gemini-2.0-flash';
       var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
 
