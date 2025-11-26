@@ -238,13 +238,12 @@ function searchAI(msg, msgPart)
       answer = data.candidates[0].content.parts[0].text;
     } else {
       // 디버깅용: 실제 JSON 전체 보기
-      console.log("API 응답 전체:", JSON.stringify(data));
+      msg.reply("API 응답 전체:" + JSON.stringify(data));
     }
 
     msg.reply(answer);
   } catch (e) {
     msg.reply("에러 발생: " + e.toString());
-    console.log(e);
   }
 }
 
