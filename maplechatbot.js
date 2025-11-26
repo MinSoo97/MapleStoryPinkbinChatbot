@@ -52,40 +52,11 @@ function onMessage(msg)
           searchLotto(msg, msgPart);
         }
         break;
+        case "이슈야":
+          searchAI(msg,msgPart);
       default:
         break;
 
-    }
-  }
-  if(content.startsWith("?")) 
-  {
-    try {
-      var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M';
-      var model = 'gemini-2.0-flash';
-      var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
-
-      const msgArr = content.substring(1).split(" ");
-      const command = msgArr[0];
-      const msgPart = msgArr.slice(1).join(" "); // 배열 → 문자열
-
-      var response = org.jsoup.Jsoup.connect(url)
-        .header("Content-Type", "application/json")
-        .requestBody(JSON.stringify({
-          "contents":[{
-            "parts": [{
-              "text": msgPart
-            }]
-          }]
-        }))
-        .ignoreContentType(true)
-        .ignoreHttpErrors(true)
-        .post();
-
-      var data = JSON.parse(response.text());
-      var answer = data.candidates[0].content.parts[0].text;
-      msg.reply(answer);
-    } catch(e) {
-      msg.reply(e.toString());
     }
   }
 }
@@ -214,12 +185,12 @@ function searchLotto(msg, msgPart)
   var json = JSON.parse(data);   
   var lottoNumbers = 
   [
-  json.drwtNo1,
-  json.drwtNo2,
-  json.drwtNo3,
-  json.drwtNo4,
-  json.drwtNo5,
-  json.drwtNo6
+    json.drwtNo1,
+    json.drwtNo2,
+    json.drwtNo3,
+    json.drwtNo4,
+    json.drwtNo5,
+    json.drwtNo6
   ];
 
   var replyMsg = "🎉 로또 " + json.drwNo + "회차 결과 🎉\n" +
@@ -231,6 +202,36 @@ function searchLotto(msg, msgPart)
                  "1등 당첨금: " + json.firstAccumamnt.toLocaleString() + "원\n" ;
 
   msg.reply (replyMsg);
+}
+
+function searchAI(msg, msgPart)
+{
+  try {
+      var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M';
+      var model = 'gemini-2.0-flash';
+      var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`;
+
+      var msgString = msgPart.join(" "); // 배열 → 문자열
+
+      var response = org.jsoup.Jsoup.connect(url)
+        .header("Content-Type", "application/json")
+        .requestBody(JSON.stringify({
+          "contents":[{
+            "parts": [{
+              "text": msgString
+            }]
+          }]
+        }))
+        .ignoreContentType(true)
+        .ignoreHttpErrors(true)
+        .post();
+
+      var data = JSON.parse(response.text());
+      var answer = data.candidates[0].content.parts[0].text;
+      msg.reply(answer);
+    } catch(e) {
+      msg.reply(e.toString());
+    }
 }
 
 /*여기서부터는 사용할 일이 없을거 같다 */
