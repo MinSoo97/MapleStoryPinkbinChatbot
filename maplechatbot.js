@@ -46,9 +46,7 @@ function onMessage(msg)
           createLottonumber(msg, msgPart);
         }
         if(msgArr[1] === "최신")
-        {
-          
-        }
+        {}
         else if (isNumberString(msgPart.join("").trim()))
         {
           searchLotto(msg, msgPart);
@@ -58,6 +56,39 @@ function onMessage(msg)
         break;
 
     }
+  }
+  if(content.startsWith("?"))
+  {
+    try
+    {
+      var api_key = 'AIzaSyBVR-kp1DLzufhS_cYAaKCmAQQtvtkMZ8M';
+      var model = 'gemini-2.0-flash'
+      var url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${api_key}`
+      const msgArr = content.substring(1).split(" "); // 메시지 받은걸 " "기준으로 split 아 앞에 @빼고
+      const command = msgArr[0]; // 제일 처음 배열
+      const msgPart = msgArr.slice(1); // 그다음 배열
+
+      var response = org.jsoup.Jsoup.conncet(url)
+                    .header("Content-Type", "application/json")
+                    .requestBody(JSON.stringify({
+                      "contents":[{
+                        "parts": [{
+                          "text": msgPart
+                        }]
+                      }]
+                    }))
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
+                    .post();
+      var data = JSON.parse(response.text());
+      var answer = data.candidates[0].content.parts[0].text;
+      msg.reply(answer);
+    }
+    catch(e)
+    {
+      msg.reply(e);
+    }
+    
   }
 }
 
