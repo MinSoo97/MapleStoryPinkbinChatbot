@@ -220,7 +220,7 @@ function searchAI(msg, msgPart)
       .requestBody(JSON.stringify({
         "contents": [{
           "parts": [{
-            "text": "너는 내 질문에 100% T 형식으로 대답해야해 질문 :"+ msgString
+            "text": "너는 내 질문에 100% F 형식으로 대답해야해 질문 :"+ msgString
           }]
         }]
       }))
